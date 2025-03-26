@@ -47,3 +47,15 @@ void	free_args(char **numbers)
 		free(numbers[i]);
 	free (numbers);
 }
+
+int	stack_size(t_node *stack)
+{
+	int	count = 0;
+
+	while (stack)
+	{
+		count++;
+		stack = stack->next;
+	}
+	return (count);
+}

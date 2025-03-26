@@ -28,8 +28,8 @@ void	ft_sb(t_node **b, int flg)
 
 void	ft_ss(t_node **a, t_node **b)
 {
-	sa(a, 0);
-	sb(b, 0);
+	ft_sa(a, 0);
+	ft_sb(b, 0);
 	write(1, "ss\n", 3);
 }
 

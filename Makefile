@@ -3,7 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = append_node.c init.c main.c stack_ops.c \
-		stack_ops_2.c stack_ops_3.c utils.c
+		stack_ops_2.c stack_ops_3.c utils.c \
+		radix_sorts.c radix_sorts_min.c 
 
 OBJ = $(SRC:.c=.o)
 

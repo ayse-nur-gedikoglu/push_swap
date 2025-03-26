@@ -15,7 +15,7 @@ int	parse_and_fill_stack(int argc, char **argv, t_node **a)
 	else
 		numbers = join_args(argc, argv);
 	if (!numbers)
-		return (NULL);
+		return (0);
 	while (numbers[i])
 	{
 		if (!ft_atoi_safe(numbers[i], &value))
