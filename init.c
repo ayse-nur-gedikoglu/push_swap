@@ -1,5 +1,4 @@
 #include "push_swap.h"
-#include "./libft/libft.h"
 
 int	fill_stack_from_numbers(char **numbers, t_node **a)
 {
@@ -46,16 +45,16 @@ char	**join_args(int argc, char **argv)
 	char	**result;
 	int		i;
 
-	joined = ft_strdup(argv[1]); //heapte joined için yer ayrılıyor
+	joined = ft_strdup(argv[1]);
 	if (!joined)
 		return (NULL);
 	i = 2;
 	while (i < argc)
 	{
-		temp = ft_strjoin(joined, " "); // temp heapte oluşturulan yeni stringin yerini tutuyor. temp → "3 2 "’nin adresini tutar
-		free(joined); //"3 2"’nin bulunduğu heap alanı serbest bırakılır. joined artık adres tutmuyor
-		joined = ft_strjoin(temp, argv[i]); //joinedım temp ve yeni argv içindeki değeri tutuyor
-		free(temp); //eski temp im freeleniyor
+		temp = ft_strjoin(joined, " ");
+		free(joined);
+		joined = ft_strjoin(temp, argv[i]);
+		free(temp);
 		if (!joined)
 			return(NULL);
 		i++;

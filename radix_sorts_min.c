@@ -38,18 +38,18 @@ static void	push_min_to_b(t_node **a, t_node **b, int size)
 {
 	t_node	*min;
 	t_node	*tmp;
-	int		pos; //min node un kaçıncı sırada olduğunu bulmak için
+	int		pos;
 
 	while (size > 3)
 	{
 		min = find_min_node(*a);
-		tmp = *a; //tmp min node a kadar ilerletilecek
+		tmp = *a;
 		pos = 0;
 		while (tmp != min)
 		{
 			pos++;
 			tmp = tmp->next;
-		} //en küçüğü buldujtan sonra buradan çıkıyor
+		}
 		rotate_min_to_top(a, pos, size + 1);
 		ft_pb(a, b);
 		size--;

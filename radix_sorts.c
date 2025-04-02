@@ -62,7 +62,7 @@ void assign_indexes(t_node *a)
 	int size;
 	
 	size = stack_size(a);
-	sorted = stack_to_array(a, size); //burada bir dizi oluşuyor.
+	sorted = stack_to_array(a, size);
 	if (!sorted)
 		error_and_exit(&a, NULL);
 	sort_array(sorted, size);
@@ -87,16 +87,16 @@ void radix_sort(t_node **a, t_node **b)
 	while (i < max_bits)
 	{
 		j = 0;
-		while (j < size) //Stack A’deki tüm elemanlar bir kez kontrol edilir.
+		while (j < size)
 		{
-			if (((*a)->index >> i) & 1) //Eğer bit = 1 → ra → eleman A'da kalır (sadece döner)
+			if (((*a)->index >> i) & 1)
 				ft_ra(a, 1);
 			else
-				ft_pb(a, b); //Eğer bit = 0 → pb → eleman B'ye gönderilir
+				ft_pb(a, b);
 			j++;
 		}
 		while (*b)
-			ft_pa(a, b); //Stack B’ye gönderilen (0’lar) elemanlar tekrar A’ya alınır.
+			ft_pa(a, b);
 		i++;
 	}
 }

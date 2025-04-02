@@ -1,5 +1,4 @@
 #include "push_swap.h"
-#include "./libft/libft.h"
 
 void	free_stack(t_node **stack)
 {
