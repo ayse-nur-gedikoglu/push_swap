@@ -1,4 +1,4 @@
-# 🧩 push_swap
+# 🧩PUSH_SWAP
 
 Bu proje, 42 Network kapsamında geliştirilen, algoritma ve veri yapıları üzerine kurulu bir sıralama problemidir.  
 Amaç, verilen tam sayıların bir yığında (stack) belirli kurallar çerçevesinde minimum sayıda işlemle sıralanmasıdır.
