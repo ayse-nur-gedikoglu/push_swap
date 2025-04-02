@@ -10,9 +10,9 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!parse_and_fill_stack(argc, argv, &a))
 		error_and_exit(&a, &b);
-	assign_indexes(a);
 	if (is_sorted(a))
 		return (free_stack(&a), 0);
+	assign_indexes(a);
 	size = stack_size(a);
 	if (size == 2)
 		sort_two(&a);

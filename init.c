@@ -1,21 +1,15 @@
 #include "push_swap.h"
 #include "./libft/libft.h"
 
-int	parse_and_fill_stack(int argc, char **argv, t_node **a)
+int	fill_stack_from_numbers(char **numbers, t_node **a)
 {
-	char	**numbers;
 	int		i;
 	int		value;
 	t_node	*new_node;
 
-	numbers = NULL;
 	i = 0;
-	if (argc == 2)
-		numbers = ft_split(argv[1], ' ');
-	else
-		numbers = join_args(argc, argv);
-	if (!numbers)
-		return (0);
+	if (!numbers || !numbers[0])
+		return (free_args(numbers), 0);
 	while (numbers[i])
 	{
 		if (!ft_atoi_safe(numbers[i], &value))
@@ -29,9 +23,22 @@ int	parse_and_fill_stack(int argc, char **argv, t_node **a)
 		i++;
 	}
 	free_args(numbers);
+	if (*a == NULL)
+		return (0);
 	return (1);
 }
 
+int	parse_and_fill_stack(int argc, char **argv, t_node **a)
+{
+	char	**numbers;
+
+	numbers = NULL;
+	if (argc == 2)
+		numbers = ft_split(argv[1], ' ');
+	else
+		numbers = join_args(argc, argv);
+	return (fill_stack_from_numbers(numbers, a));
+}
 char	**join_args(int argc, char **argv)
 {
 	char	*joined;
@@ -39,16 +46,16 @@ char	**join_args(int argc, char **argv)
 	char	**result;
 	int		i;
 
-	joined = ft_strdup(argv[1]);
+	joined = ft_strdup(argv[1]); //heapte joined için yer ayrılıyor
 	if (!joined)
 		return (NULL);
 	i = 2;
 	while (i < argc)
 	{
-		temp = ft_strjoin(joined, " ");
-		free(joined);
-		joined = ft_strjoin(temp, argv[i]);
-		free(temp);
+		temp = ft_strjoin(joined, " "); // temp heapte oluşturulan yeni stringin yerini tutuyor. temp → "3 2 "’nin adresini tutar
+		free(joined); //"3 2"’nin bulunduğu heap alanı serbest bırakılır. joined artık adres tutmuyor
+		joined = ft_strjoin(temp, argv[i]); //joinedım temp ve yeni argv içindeki değeri tutuyor
+		free(temp); //eski temp im freeleniyor
 		if (!joined)
 			return(NULL);
 		i++;
@@ -57,23 +64,37 @@ char	**join_args(int argc, char **argv)
 	free(joined);
 	return (result);
 }
+
+int	is_valid_number(const char *str)
+{
+	if (!*str)
+		return (0);
+	if (*str == '+' || *str == '-')
+		str++;
+	if (!(*str >= '0' && *str <= '9'))
+		return (0);
+	while (*str >= '0' && *str <= '9')
+		str++;
+	if (*str != '\0')
+		return (0);
+	return (1);
+}
+
 int	ft_atoi_safe(const char *str, int *out)
 {
-	long long	result;
-	int			sign;
+	long long	result = 0;
+	int			sign = 1;
 
-	result = 0;
-	sign = 1;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
+	if (!is_valid_number(str))
+		return (0);
 	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
 			sign = -1;
 		str++;
 	}
-	if (!*str)
-		return (0);
 	while (*str >= '0' && *str <= '9')
 	{
 		result = result * 10 + (*str - '0');

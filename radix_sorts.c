@@ -3,15 +3,17 @@
 static int *stack_to_array(t_node *a, int size)
 {
 	int *arr;
-	int i = 0;
+	int i;
 
+	i = 0;
 	arr = malloc(sizeof(int) * size);
 	if (!arr)
 		return (NULL);
 	while (a)
 	{
-		arr[i++] = a->value;
+		arr[i] = a->value;
 		a = a->next;
+		i++;
 	}
 	return (arr);
 }
@@ -42,7 +44,9 @@ static void sort_array(int *arr, int size)
 
 static int get_index(int value, int *sorted, int size)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (i < size)
 	{
 		if (sorted[i] == value)
@@ -55,9 +59,10 @@ static int get_index(int value, int *sorted, int size)
 void assign_indexes(t_node *a)
 {
 	int *sorted;
-	int size = stack_size(a);
-
-	sorted = stack_to_array(a, size);
+	int size;
+	
+	size = stack_size(a);
+	sorted = stack_to_array(a, size); //burada bir dizi oluşuyor.
 	if (!sorted)
 		error_and_exit(&a, NULL);
 	sort_array(sorted, size);
@@ -69,42 +74,29 @@ void assign_indexes(t_node *a)
 	free(sorted);
 }
 
-int get_max_bits(t_node *a)
-{
-	int max = 0;
-	int bits = 0;
-
-	while (a)
-	{
-		if (a->index > max)
-			max = a->index;
-		a = a->next;
-	}
-	while ((max >> bits) != 0)
-		bits++;
-	return (bits);
-}
-
 void radix_sort(t_node **a, t_node **b)
 {
-	int i = 0;
+	int i;
 	int j;
-	int size = stack_size(*a);
-	int max_bits = get_max_bits(*a);
+	int size;
+	int max_bits;
 
+	i = 0;
+	size = stack_size(*a);
+	max_bits = get_max_bits(*a);
 	while (i < max_bits)
 	{
 		j = 0;
-		while (j < size)
+		while (j < size) //Stack A’deki tüm elemanlar bir kez kontrol edilir.
 		{
-			if (((*a)->index >> i) & 1)
+			if (((*a)->index >> i) & 1) //Eğer bit = 1 → ra → eleman A'da kalır (sadece döner)
 				ft_ra(a, 1);
 			else
-				ft_pb(a, b);
+				ft_pb(a, b); //Eğer bit = 0 → pb → eleman B'ye gönderilir
 			j++;
 		}
 		while (*b)
-			ft_pa(a, b);
+			ft_pa(a, b); //Stack B’ye gönderilen (0’lar) elemanlar tekrar A’ya alınır.
 		i++;
 	}
 }

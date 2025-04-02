@@ -50,8 +50,9 @@ void	free_args(char **numbers)
 
 int	stack_size(t_node *stack)
 {
-	int	count = 0;
+	int	count;
 
+	count = 0;
 	while (stack)
 	{
 		count++;
