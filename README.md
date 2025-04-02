@@ -1,94 +1,72 @@
 # 🧩 push_swap
 
-**push_swap**, 42 Network’teki algoritma odaklı projelerden biridir.  
-Amaç, verilen sayıları sadece belirli kurallar çerçevesinde sıralayarak, sonucu minimum işlemle elde etmektir.  
-Kodunuzu değerlendiren sistem, yalnızca yaptığı işlemleri (komutları) okur — bu da projeyi algoritmik düşünme ve optimizasyon açısından çok değerli hale getirir.
+Bu proje, 42 Network kapsamında geliştirilen, algoritma ve veri yapıları üzerine kurulu bir sıralama problemidir.  
+Amaç, verilen tam sayıların bir yığında (stack) belirli kurallar çerçevesinde minimum sayıda işlemle sıralanmasıdır.
 
 ---
 
-## 🚀 Proje Amacı
+## Proje Hakkında
 
-- Komut satırından verilen `int` tipindeki sayıları stack A'ya yerleştir
-- Yalnızca belirli işlemlerle bu stack'i sıralı hale getir
-- Stack B'yi yardımcı yığın olarak kullanabilirsin
-- Ekrana yalnızca uyguladığın sıralama komutlarını yaz (örneğin: `sa`, `pb`, `ra`...)
-
----
-
-## ⚙️ Kullanılabilir Komutlar
-
-### 📥 Push
-- `pa` → B'den A'ya eleman taşı
-- `pb` → A'dan B'ye eleman taşı
-
-### 🔁 Swap
-- `sa` → A’daki ilk iki elemanı yer değiştir
-- `sb` → B’deki ilk iki elemanı yer değiştir
-- `ss` → Aynı anda `sa` ve `sb`
-
-### 🔄 Rotate
-- `ra` → A’yı yukarı kaydır (ilk eleman sona gider)
-- `rb` → B’yi yukarı kaydır
-- `rr` → `ra` ve `rb` birlikte
-
-### ↩️ Reverse Rotate
-- `rra` → A’yı aşağı kaydır (son eleman başa gelir)
-- `rrb` → B’yi aşağı kaydır
-- `rrr` → `rra` ve `rrb` birlikte
+Kullanıcıdan komut satırı argümanlarıyla alınan sayılar stack A içerisine yerleştirilir.  
+Sıralama işlemi yalnızca izin verilen sınırlı sayıda komut kullanılarak yapılır.  
+Sıralama işlemi gerçekleştikçe yapılan hamleler standart çıktı üzerinden yazdırılır.
 
 ---
 
-## 🧠 Öğrenilen Temel Konular
+## Kullanılabilir Komutlar
 
-### ✔️ Bağlı Listeler (Linked Lists)
-- Stack yapısı bağlı liste ile temsil edilir
-- Eleman ekleme, silme, yer değiştirme gibi işlemler manuel olarak yazılır
+**Swap işlemleri**
+- `sa`: A yığınının ilk iki elemanını yer değiştirir
+- `sb`: B yığınının ilk iki elemanını yer değiştirir
+- `ss`: Aynı anda `sa` ve `sb`
 
-### ✔️ Bit Düzeyinde Operasyonlar (Bitwise)
-- Radix algoritması için binary mantığıyla bitler üzerinden sıralama yapılır
-- `>>`, `&` gibi bit işlemleri ile bit bazlı kontrol sağlanır
+**Push işlemleri**
+- `pa`: B'den A'ya eleman taşır
+- `pb`: A'dan B'ye eleman taşır
 
-### ✔️ Hata Yönetimi
-- Kullanıcının girdiği değerlerde: boşluklar, tekrar eden sayılar, sayısal olmayan karakterler, `int` sınır aşımı gibi durumlar tespit edilip engellenir
+**Rotate işlemleri**
+- `ra`: A yığınını yukarı kaydırır
+- `rb`: B yığınını yukarı kaydırır
+- `rr`: Aynı anda `ra` ve `rb`
 
-### ✔️ Algoritma Optimizasyonu
-- Küçük stack’ler için özel hardcoded sıralamalar
-- Büyük stack’ler için genel algoritmalar
-- Mümkün olan en az işlemle sıralama hedeflenir
-
----
-
-## 🧮 Radix Sort Algoritması Nasıl Çalışır?
-
-1. Tüm sayılar sıralanarak her elemana **index** atanır (0'dan başlayarak).
-2. En büyük index’e bakılarak bu sayıların kaç bitlik olduğu hesaplanır (`get_max_bits`).
-3. Her bit pozisyonu (LSB'den MSB’ye) için:
-   - **Bit 0 olanlar B’ye gönderilir**
-   - **Bit 1 olanlar A’da tutulur (`ra` ile döndürülür)**
-4. Her bit turu sonunda B'deki elemanlar A’ya geri alınır (`pa`)
-5. Bu işlem `max_bits` kadar tekrarlanır
-6. Sonuç olarak sayılar sıralanmış olur
-
-### 🔢 Örnek (index bazlı):
-
-| index | binary |
-|-------|--------|
-| 0     | 000    |
-| 1     | 001    |
-| 2     | 010    |
-| 3     | 011    |
-| 4     | 100    |
-
-- 0. bit → `pb`: 0, 2, 4 / `ra`: 1, 3  
-- 1. bit → `pb`/`ra` ayrımı tekrar  
-- 2. bit → son ayrım ve sıralama tamamlanır
-
-Bu algoritma `O(n * log n)` karmaşıklığıyla büyük veri kümelerinde oldukça etkilidir.
+**Reverse rotate işlemleri**
+- `rra`: A yığınını aşağı kaydırır
+- `rrb`: B yığınını aşağı kaydırır
+- `rrr`: Aynı anda `rra` ve `rrb`
 
 ---
 
-## 💻 Projeyi Çalıştırmak
+## Uygulama Yapısı
+
+- Küçük boyutlu veriler için (2–5 eleman) özel sıralama algoritmaları uygulanmıştır.
+- Büyük boyutlu veriler için bit tabanlı radix sort algoritması tercih edilmiştir.
+- Yığınlar bağlı liste (linked list) veri yapısı ile temsil edilmiştir.
+- Giriş kontrolleri, tekrar eden sayılar, geçersiz karakterler ve `int` sınır aşımı gibi durumlara karşı yapılmaktadır.
+
+---
+
+## Radix Sort Algoritması
+
+Radix sort algoritması, tüm sayıların önceden sıralanarak indekslenmesi prensibiyle çalışır.  
+Her eleman, sıralı listedeki yerini temsil eden bir `index` alır. Sıralama işlemi bu index’ler üzerinden yapılır.
+
+Algoritma şu adımlarla işler:
+
+1. Tüm sayılara sıralı bir index atanır.
+2. En büyük index değeri alınarak bu değerin binary olarak kaç bit uzunluğunda olduğu hesaplanır.
+3. Her bit pozisyonu (en sağdan başlayarak) için:
+   - Eğer elemanın ilgili bit değeri 0 ise B yığınına gönderilir (`pb`)
+   - Eğer 1 ise A yığınında kalır ve döndürülür (`ra`)
+4. B yığınındaki elemanlar her turun sonunda A’ya geri alınır (`pa`)
+5. Bu işlem en büyük bit sayısı kadar tekrar eder.
+
+Bu algoritma sabit uzunlukta ve çok sayıda eleman içeren sıralamalar için uygundur ve işlem sayısı açısından oldukça verimlidir.
+
+---
+
+## Örnek Kullanım
 
 ```bash
-make
-./push_swap 4 2 1 3 5
+$ ./push_swap 3 2 1
+sa
+rra
